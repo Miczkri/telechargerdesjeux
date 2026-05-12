@@ -1,0 +1,33 @@
+{
+  "site": {
+    "title": "telechargerdesjeux.com | Des jeux à télécharger gratuitement",
+    "base_url": "https://telechargerdesjeux.com",
+    "base_path": "/",
+    "trailing_slash": true,
+    "favicon": "/images/favicon.ico"
+  },
+
+  "settings": {
+    "pagination": 9
+  },
+
+  "metadata": {
+    "meta_description": "Telechargerdesjeux.com est le meilleur site Internet pour télécharger des jeux gratuits pour PC. Tous vos jeux préférés réunis au même endroit !"
+  },
+
+  "google_tag_manager": {
+    "enable": true,
+    "gtm_id": "GTM-WTJB4DQN"
+  },
+
+  "params": {
+    "contact_form_action": "#",
+    "copyright": "© 2026 telechargerdesjeux.com"
+  },
+
+  "contactinfo": {
+    "address": "20 Rue du Capitaine Alfred Dreyfus <br/> Rennes",
+    "email": "contact@telechargerdesjeux.com",
+    "phone": "02 99 79 68 47"
+  }
+}

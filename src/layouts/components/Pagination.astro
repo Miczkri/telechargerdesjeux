@@ -1,0 +1,98 @@
+---
+const { section, currentPage, totalPages } = Astro.props;
+
+const indexPageLink = currentPage === 2;
+const hasPrevPage = currentPage > 1;
+const hasNextPage = totalPages > currentPage;
+
+// --- LOGIKA PAGINACJI ---
+const range = 1; // Ile stron pokazać obok bieżącej (1 z lewej, 1 z prawej)
+let pageList = [];
+
+// Zawsze dodajemy pierwszą stronę
+pageList.push(1);
+
+let start = Math.max(2, currentPage - range);
+let end = Math.min(totalPages - 1, currentPage + range);
+
+// Dodajemy kropki po 1, jeśli start jest dalej niż 2
+if (start > 2) {
+  pageList.push("...");
+}
+
+// Dodajemy środkowy zakres
+for (let i = start; i <= end; i++) {
+  pageList.push(i);
+}
+
+// Dodajemy kropki przed ostatnią, jeśli koniec jest przedostatni
+if (end < totalPages - 1) {
+  pageList.push("...");
+}
+
+// Zawsze dodajemy ostatnią stronę (jeśli jest więcej niż 1 strona)
+if (totalPages > 1) {
+  pageList.push(totalPages);
+}
+// --- KONIEC LOGIKI ---
+---
+
+{
+  totalPages > 1 && (
+    <nav class="mb-4 flex justify-center space-x-2 text-center" aria-label="Pagination">
+      {/* Przycisk PREVIOUS */}
+      {hasPrevPage ? (
+        <a
+          href={indexPageLink ? `${section ? "/" + section : "/"}` : `${section ? "/" + section : ""}/page/${currentPage - 1}`}
+          class="border border-primary hover:bg-primary hover:text-white rounded-md h-10 w-10 leading-[36px] font-semibold text-text-dark flex items-center justify-center transition duration-200"
+        >
+          <span class="sr-only">Previous</span>
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+        </a>
+      ) : (
+        <span class="border border-gray-400 opacity-40 rounded-md h-10 w-10 leading-[36px] font-semibold text-text-dark flex items-center justify-center pointer-events-none">
+           <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+        </span>
+      )}
+
+      {/* INDEKS STRON */}
+      {pageList.map((pagination) => {
+        if (pagination === "...") {
+          return <span class="h-10 w-10 leading-[36px] font-semibold text-text-dark">...</span>;
+        }
+        
+        return pagination === currentPage ? (
+          <span aria-current="page" class="border border-primary bg-primary rounded-md h-10 w-10 leading-[38px] font-semibold text-white inline-block">
+            {pagination}
+          </span>
+        ) : (
+          <a
+            href={pagination === 1 ? `${section ? "/" + section : "/"}` : `${section ? "/" + section : ""}/page/${pagination}`}
+            class="border border-primary hover:bg-primary hover:text-white rounded-md h-10 w-10 leading-[36px] font-semibold text-text-dark flex items-center justify-center transition duration-200"
+          >
+            {pagination}
+          </a>
+        );
+      })}
+
+      {/* Przycisk NEXT */}
+      {hasNextPage ? (
+        <a
+          href={`${section ? "/" + section : ""}/page/${currentPage + 1}`}
+          class="border border-primary hover:bg-primary hover:text-white rounded-md h-10 w-10 leading-[36px] font-semibold text-text-dark flex items-center justify-center transition duration-200"
+        >
+          <span class="sr-only">Next</span>
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+          </svg>
+        </a>
+      ) : (
+        <span class="border border-gray-400 opacity-40 rounded-md h-10 w-10 leading-[36px] font-semibold text-text-dark flex items-center justify-center pointer-events-none">
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+        </span>
+      )}
+    </nav>
+  )
+}

@@ -1,0 +1,24 @@
+---
+// Komponent odbiera src i alt przekazane z Markdowna/MDX
+const { src, alt } = Astro.props;
+---
+
+<img
+  src={src}
+  alt={alt}
+  height={775}
+  width={436}
+  widths={[400, 665, 780]}
+  sizes="(max-width: 780px) 78vw, 780px"       
+  loading="lazy"      
+  decoding="async"    
+  class="w-full h-auto rounded-lg"
+/>
+
+<style>
+  img {
+    width: 100%;
+    height: auto;
+    max-width: 780px;
+  }
+</style>
