@@ -110,7 +110,7 @@ const { title, description, authors, categories, image, date, tags, image_alt } 
               tags.map((tag: string) => (
                 <li class="inline-block">
                   <a
-                    href={`/tags/${slugify(tag)}`}
+                    href={`/tag/${slugify(tag)}`}
                     class="block rounded-lg bg-light px-4 py-2 font-semibold text-text-dark text-sm hover:text-primary transition duration-300"
                   >
                     #{humanize(tag)}
