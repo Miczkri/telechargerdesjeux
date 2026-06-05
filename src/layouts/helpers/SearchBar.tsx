@@ -67,7 +67,7 @@ export default function SearchBar({ searchList }: Props) {
     <div className="min-h-[45vh]">
       <input
         className="form-input w-full text-center"
-        placeholder="Digita qui per cercare i post"
+        placeholder="Entrez le titre du jeu que vous recherchez"
         type="text"
         name="search"
         value={inputVal}
