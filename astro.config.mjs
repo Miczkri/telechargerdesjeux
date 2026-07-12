@@ -55,7 +55,7 @@ export default defineConfig({
   // 2. Łączymy obie konfiguracje obrazów
   image: { 
     service: sharpImageService(),
-    domains: ['img.telechargerdesjeux.com'], // Zezwalamy na obrazy z R2
+    domains: ['img.telechargerdesjeux.com', 'media.descargarpcjuegos.com'], // Zezwalamy na obrazy z R2
   },
 
   vite: { plugins: [tailwindcss()] },
