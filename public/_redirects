@@ -19,3 +19,4 @@
 /nouvelles* /categorie/nouvelles 301
 /simulateur-de-vie* /categorie/simulateur-de-vie 301
 /jeu-de-combat* /categorie/jeu-de-combat 301
+/*feed/ /:splat 301
