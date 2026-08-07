@@ -1,6 +1,7 @@
 ---
 import Posts from "@/components/Posts.astro";
 import Base from "@/layouts/Base.astro";
+import Pagination from "@/components/Pagination.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { getTaxonomy } from "@/lib/taxonomyParser.astro";
 import { sortByDate } from "@/lib/utils/sortFunctions";
@@ -23,6 +24,13 @@ const posts = await getSinglePage("posts");
 const filterByTags = taxonomyFilter(posts, "tags", tag);
 const sortedPosts = sortByDate(filterByTags);
 
+// Ustawienia paginacji
+const postsPerPage = 6; // Liczba postów na stronę
+const totalPages = Math.ceil(sortedPosts.length / postsPerPage);
+
+// Pobieramy tylko posty na pierwszą stronę
+const paginatedPosts = sortedPosts.slice(0, postsPerPage);
+
 const title = humanize(tag || "");
 ---
 
@@ -31,7 +39,16 @@ const title = humanize(tag || "");
     <div class="container">
       <p class="text-center text-2xl mb-4">Bienvenue sur le tag</p>
       <h1 class="h2 mb-16 text-center text-primary">{title}</h1>
-      <Posts posts={sortedPosts} fluid={false} />
+      
+      <Posts posts={paginatedPosts} fluid={false} />
+
+      <div class="mt-12">
+        <Pagination
+          section={`tag/${tag}`}
+          currentPage={1}
+          totalPages={totalPages}
+        />
+      </div>
     </div>
   </div>
 </Base>

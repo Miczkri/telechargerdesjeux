@@ -1,0 +1,49 @@
+---
+import Posts from "@/components/Posts.astro";
+import Base from "@/layouts/Base.astro";
+import Pagination from "@/components/Pagination.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { getTaxonomy } from "@/lib/taxonomyParser.astro";
+import { sortByDate } from "@/lib/utils/sortFunctions";
+import taxonomyFilter from "@/lib/utils/taxonomyFilter";
+import { humanize } from "@/lib/utils/textConverter";
+
+export async function getStaticPaths({ paginate }) {
+  const tags = await getTaxonomy("posts", "tags");
+  const posts = await getSinglePage("posts");
+
+  return tags.flatMap((tag) => {
+    const filterByTags = taxonomyFilter(posts, "tags", tag);
+    const sortedPosts = sortByDate(filterByTags);
+
+    return paginate(sortedPosts, {
+      params: { tag },
+      pageSize: 6, // Liczba postów na stronę
+    }).filter((pageRoute) => pageRoute.params.page !== "1");
+  });
+}
+
+const { tag } = Astro.params;
+const { page } = Astro.props;
+
+const title = humanize(tag || "");
+---
+
+<Base title={`${title} - Page ${page.currentPage}`}>
+  <div class="section">
+    <div class="container">
+      <p class="text-center text-2xl mb-4">Bienvenue sur le tag</p>
+      <h1 class="h2 mb-16 text-center text-primary">{title}</h1>
+      
+      <Posts posts={page.data} fluid={false} />
+
+      <div class="mt-12">
+        <Pagination
+          section={`tag/${tag}`}
+          currentPage={page.currentPage}
+          totalPages={page.lastPage}
+        />
+      </div>
+    </div>
+  </div>
+</Base>
