@@ -1,0 +1,115 @@
+---
+import Base from "@/layouts/Base.astro";
+import Pagination from "@/components/Pagination.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import dateFormat from "@/lib/utils/dateFormat";
+import { Image } from "astro:assets";
+
+import { sortByDate } from "@/lib/utils/sortFunctions";
+import { humanize, slugify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import { BiCalendarEdit, BiCategoryAlt } from "react-icons/bi";
+import AuthorSingle from "@/partials/AuthorSingle.astro";
+import config from "@/config/config.json";
+
+export async function getStaticPaths({ paginate }) {
+  const authors = await getSinglePage("authors");
+  const posts = await getSinglePage("posts");
+  const sortPostsByDate: CollectionEntry<"posts">[] = sortByDate(posts);
+  const postsPerPage = config.settings.pagination || 6;
+
+  return authors.flatMap((author) => {
+    const authorPosts = sortPostsByDate.filter((post) =>
+      post.data.authors
+        .map((a) => slugify(a))
+        .includes(slugify(author.data.title))
+    );
+
+    return paginate(authorPosts, {
+      params: { single: author.id },
+      props: { author },
+      pageSize: postsPerPage,
+    }).filter((pageRoute) => pageRoute.params.page !== "1");
+  });
+}
+
+const { author } = Astro.props;
+const { page } = Astro.props;
+const { title, meta_title, description, image } = author.data;
+---
+
+<Base
+  title={`${title} - Page ${page.currentPage}`}
+  meta_title={meta_title}
+  description={description}
+  image={image}
+>
+  <AuthorSingle author={author} />
+
+  <section class="section pt-0">
+    <div class="container">
+      <h2 class="mb-8 text-center h3">Publications récentes</h2>
+      <div
+        class={`row gy-4 ${page.data.length < 3 ? "justify-center" : ""}`}
+      >
+        {page.data.map((post) => (
+          <div class="col-12 sm:col-6 lg:col-4">
+            {post.data.image && (
+              <a
+                href={`/${post.id}`}
+                class="rounded-lg block hover:text-primary overflow-hidden group"
+              >
+                <Image
+                  class="group-hover:scale-[1.05] transition duration-300 w-full"
+                  src={post.data.image}
+                  alt={post.data.title}
+                  width={445}
+                  height={230}
+                />
+              </a>
+            )}
+            <ul class="mt-4 text-text flex flex-wrap items-center text-sm">
+              <li class="mb-2 mr-4 flex items-center flex-wrap font-medium">
+                <BiCalendarEdit className="mr-1 h-[16px] w-[16px] text-gray-600" />
+                {dateFormat(post.data.date!)}
+              </li>
+              <li class="mb-2 mr-4 flex items-center flex-wrap">
+                <BiCategoryAlt className="mr-1 h-[16px] w-[16px] text-gray-600" />
+
+                <ul>
+                  {post.data.categories.map((category, i: number) => (
+                    <li class="inline-block">
+                      <a
+                        href={`/categorie/${slugify(category)}`}
+                        class="mr-2 hover:text-primary font-medium"
+                      >
+                        {humanize(category)}
+                        {i !== post.data.categories.length - 1 && ","}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            </ul>
+            <h3 class="h5">
+              <a
+                href={`/${post.id}`}
+                class="block hover:text-primary transition duration-300"
+              >
+                {post.data.title}
+              </a>
+            </h3>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-12">
+        <Pagination
+          section={`auteur/${author.id}`}
+          currentPage={page.currentPage}
+          totalPages={page.lastPage}
+        />
+      </div>
+    </div>
+  </section>
+</Base>

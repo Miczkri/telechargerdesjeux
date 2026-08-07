@@ -1,5 +1,6 @@
 ---
 import Base from "@/layouts/Base.astro";
+import Pagination from "@/components/Pagination.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import dateFormat from "@/lib/utils/dateFormat";
 import { Image } from "astro:assets";
@@ -9,6 +10,7 @@ import { humanize, slugify } from "@/lib/utils/textConverter";
 import type { CollectionEntry } from "astro:content";
 import { BiCalendarEdit, BiCategoryAlt } from "react-icons/bi";
 import AuthorSingle from "@/partials/AuthorSingle.astro";
+import config from "@/config/config.json";
 
 export async function getStaticPaths() {
   const authors = await getSinglePage("authors");
@@ -33,6 +35,11 @@ const currentPosts = sortPostsByDate.filter((post) => {
     .map((author) => slugify(author))
     .includes(slugify(title));
 });
+
+// Paginacja
+const postsPerPage = config.settings.pagination || 6;
+const totalPages = Math.ceil(currentPosts.length / postsPerPage);
+const paginatedPosts = currentPosts.slice(0, postsPerPage);
 ---
 
 <Base
@@ -47,11 +54,11 @@ const currentPosts = sortPostsByDate.filter((post) => {
     currentPosts.length > 0 && (
       <section class="section pt-0">
         <div class="container">
-          <h2 class="mb-8 text-center h3">Recent Posts</h2>
+          <h2 class="mb-8 text-center h3">Publications récentes</h2>
           <div
-            class={`row gy-4 ${currentPosts.length < 3 ? "justify-center" : ""}`}
+            class={`row gy-4 ${paginatedPosts.length < 3 ? "justify-center" : ""}`}
           >
-            {currentPosts.map((post) => (
+            {paginatedPosts.map((post) => (
               <div class="col-12 sm:col-6 lg:col-4">
                 {post.data.image && (
                   <a
@@ -100,6 +107,14 @@ const currentPosts = sortPostsByDate.filter((post) => {
                 </h3>
               </div>
             ))}
+          </div>
+
+          <div class="mt-12">
+            <Pagination
+              section={`auteur/${author.id}`}
+              currentPage={1}
+              totalPages={totalPages}
+            />
           </div>
         </div>
       </section>
