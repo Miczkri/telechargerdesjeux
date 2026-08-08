@@ -28,10 +28,20 @@ export interface Props {
 // distructure frontmatters
 const { title, meta_title, description, image, noindex, canonical } =
   Astro.props;
+  // Automatyczny i bezpieczny link kanoniczny
+const canonicalURL = canonical 
+  ? canonical 
+  : new URL(Astro.url.pathname, Astro.site || config.site.base_url).href;
+
+// Bezpieczny link do obrazka
+const resolvedImage = image ? image : config.metadata.meta_image;
+const ogImageUrl = resolvedImage?.startsWith("http")
+  ? resolvedImage
+  : `${config.site.base_url}${resolvedImage?.startsWith("/") ? "" : "/"}${resolvedImage}`;
 ---
 
 <!doctype html>
-<html lang="it">
+<html lang="fr">
   <head>
     <link rel="preconnect" href="https://img.telechargerdesjeux.com">
     <link rel="preconnect" href="https://media.losgameros.com">
@@ -74,7 +84,7 @@ const { title, meta_title, description, image, noindex, canonical } =
     </title>
 
     <!-- canonical url -->
-    {canonical && <link rel="canonical" href={canonical} item-prop="url" />}
+    <link rel="canonical" href={canonicalURL} />
 
     <!-- noindex robots -->
     {noindex && <meta name="robots" content="noindex,nofollow" />}
@@ -106,10 +116,7 @@ const { title, meta_title, description, image, noindex, canonical } =
       )}
     />
     <meta property="og:type" content="website" />
-    <meta
-      property="og:url"
-      content={`${config.site.base_url}/${Astro.url.pathname.replace("/", "")}`}
-    />
+    <meta property="og:url" content={canonicalURL} />
 
     <!-- twitter-title -->
     <meta
@@ -127,13 +134,7 @@ const { title, meta_title, description, image, noindex, canonical } =
       )}
     />
 
-    <!-- og-image -->
-    <meta
-      property="og:image"
-      content={`${config.site.base_url}${
-        image ? image : config.metadata.meta_image
-      }`}
-    />
+    <meta property="og:image" content={ogImageUrl} />
 {isGtmEnabled && (
     <>
       {/* Inicjalizacja dataLayer przez Partytown */}
@@ -150,13 +151,7 @@ const { title, meta_title, description, image, noindex, canonical } =
       />
     </>
   )}
-    <!-- twitter-image -->
-    <meta
-      name="twitter:image"
-      content={`${config.site.base_url}${
-        image ? image : config.metadata.meta_image
-      }`}
-    />
+    <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
