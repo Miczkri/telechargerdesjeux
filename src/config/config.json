@@ -1,6 +1,6 @@
 {
   "site": {
-    "title": "telechargerdesjeux.com | Des jeux à télécharger gratuitement",
+    "title": "telechargerdesjeux.com",
     "base_url": "https://telechargerdesjeux.com",
     "base_path": "/",
     "trailing_slash": true,
