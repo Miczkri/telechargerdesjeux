@@ -18,8 +18,6 @@ what_i_do:
 
 ---
 
-À propos de nous
-
 TéléchargerDesJeux.com est un site web moderne destiné à tous les passionnés de divertissement numérique. Vous y trouverez une large gamme de jeux vidéo numériques pour différentes plateformes, ainsi que des recharges et des cartes prépayées. Nous avons été les premiers en France à lancer, en décembre 2011, un service de distribution numérique de jeux pour PC et Mac, et nous restons aujourd’hui encore le leader local dans ce domaine. Nous existons depuis plus de 14 ans et notre site ne cesse de se développer. Tout cela grâce à vous. Merci !
 
 Sur TéléchargerDesJeux.com, vous trouverez :
@@ -29,5 +27,3 @@ Des jeux gratuits : nous mettons tout en œuvre pour vous proposer des promotion
 Un choix immense de recharges – plongez dans l’univers du cinéma avec les cartes Netflix et Disney+. Souscrivez à des abonnements Spotify Premium ou Tinder Gold. Rechargez votre portefeuille Google Play et Apple Store. Achetez des cartes cadeaux pour des boutiques telles qu’adidas, H&M ou Zalando. Enfin, débloquez votre compte de joueur grâce aux recharges pour les portefeuilles PlayStation, Xbox, Game Pass, Roblox, Minecraft et Nintendo. Tout en un seul endroit.
 
 Communauté – vous souhaitez discuter de jeux et de divertissement ? Alors vous êtes au bon endroit ! Nous échangerons avec vous sur Facebook, Instagram, X et YouTube.
-
-Traduit avec DeepL.com (version gratuite)
