@@ -1,10 +1,11 @@
 {
   "site": {
-    "title": "telechargerdesjeux.com",
+    "title": "TelechargerDesJeux.com - Télécharger des jeux gratuitement",
     "base_url": "https://telechargerdesjeux.com",
     "base_path": "/",
     "trailing_slash": true,
-    "favicon": "/images/favicon.ico"
+    "favicon": "/images/favicon.ico",
+    "logo_text": "TelechargerDesJeux"
   },
 
   "settings": {
@@ -12,7 +13,7 @@
   },
 
   "metadata": {
-    "meta_description": "Telechargerdesjeux.com est le meilleur site Internet pour télécharger des jeux gratuits pour PC. Tous vos jeux préférés réunis au même endroit !"
+    "meta_description": "TelechargerDesJeux.com est le meilleur site Internet pour télécharger des jeux gratuits pour PC. Tous vos jeux préférés réunis au même endroit !"
   },
 
   "google_tag_manager": {
